@@ -7,10 +7,6 @@ const { checkBody } = require('../modules/checkBody');
 const bcrypt = require('bcrypt');
 const uid2 = require('uid2');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.json('respond with a resource');
-});
 
 router.post('/signup', (req,res) => {
   // if (!checkBody(req.body, ['username', 'password'])) {
@@ -20,7 +16,7 @@ router.post('/signup', (req,res) => {
 
   User.findOne({username: req.body.username}).then(data => {
       if (data === null) {
-          const hash = bcrypt.hashSync('password', 10);
+          const hash = bcrypt.hashSync(req.body.password, 10);
 
           const newUser = new User({
               username: req.body.username,
@@ -31,11 +27,22 @@ router.post('/signup', (req,res) => {
           })
 
           newUser.save().then(user => {
-              res.json({ result: true, newUser})
+              res.json({ result: true, user: newUser });
           })
       } else {
           res.json({ result: false, error: 'User already in db' });
       }
   })
 })
+
+router.post('/signin', (req, res) => {
+  User.findOne({username: req.body.username}).then(data => {
+    if (data && bcrypt.compareSync(req.body.password, data.password)) {
+      res.json({ result: true, token: data.token });
+    } else {
+      res.json({ result: false, error: 'User not found or wrong password', data });
+    }
+  })
+})
+
 module.exports = router;
