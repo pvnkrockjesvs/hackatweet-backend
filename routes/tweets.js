@@ -7,7 +7,7 @@ const User = require('../models/users');
 /* GET tweets listing. */
 router.get('/', function(req, res, next) {
    Tweet.find().populate('user').then(data => {
-      res.json({data})
+      res.json({ tweet : data });
    })
 });
 
