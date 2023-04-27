@@ -4,13 +4,14 @@ const { checkBody } = require('../modules/checkBody');
 const Tweet = require('../models/tweets');
 const User = require('../models/users');
 
-/* GET users listing. */
+/* GET tweets listing. */
 router.get('/', function(req, res, next) {
    Tweet.find().populate('user').then(data => {
       res.json({data})
    })
 });
 
+/* POST a tweet. */
 router.post('/', (req, res) => {
    if (!checkBody(req.body, ['text'])) {
       res.json({ result: false, error: 'Missing or empty fields' });
@@ -30,6 +31,7 @@ router.post('/', (req, res) => {
    })
 })
 
+/* DELETE a tweet */
 router.delete('/', (req, res) => {
    Tweet.findByIdAndDelete(req.body.id).then(data => {
       res.json({ result: true, data})

@@ -1,13 +1,13 @@
 var express = require('express');
 var router = express.Router();
+require('../models/connection')
 
-require('../models/connection');
 const User = require('../models/users');
 const { checkBody } = require('../modules/checkBody');
 const bcrypt = require('bcrypt');
 const uid2 = require('uid2');
 
-
+/* SIGNUP a user*/
 router.post('/signup', (req,res) => {
   if (!checkBody(req.body, ['username', 'password', 'name'])) {
       res.json({ result: false, error: 'Missing or empty fields' });
@@ -35,6 +35,7 @@ router.post('/signup', (req,res) => {
   })
 })
 
+/* SIGNIN a user*/
 router.post('/signin', (req, res) => {
   if (!checkBody(req.body, ['username', 'password'])) {
     res.json({ result: false, error: 'Missing or empty fields' });
