@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
    })
 });
 
-router.post('/post', (req, res) => {
+router.post('/', (req, res) => {
    if (!checkBody(req.body, ['text'])) {
       res.json({ result: false, error: 'Missing or empty fields' });
       return;
@@ -27,6 +27,12 @@ router.post('/post', (req, res) => {
       newTweet.save().then(tweet => {
          res.json({ result: true, tweet})
       })
+   })
+})
+
+router.delete('/', (req, res) => {
+   Tweet.findByIdAndDelete(req.body.id).then(data => {
+      res.json({ result: true, data})
    })
 })
 
