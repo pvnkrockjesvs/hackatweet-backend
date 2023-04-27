@@ -16,19 +16,18 @@ router.post('/post', (req, res) => {
       res.json({ result: false, error: 'Missing or empty fields' });
       return;
    }
-
    
-   const newTweet = new Tweet({
-      text: req.body.text,
-      date: Date.now(),
-      user: {_id: req.body.token}
+   User.findOne({ token: req.body.token }).then(user => {
+      const newTweet = new Tweet({
+         text: req.body.text,
+         date: Date.now(),
+         user: {_id: user._id}
+      })
+
+      newTweet.save().then(tweet => {
+         res.json({ result: true, tweet})
+      })
    })
-
-   newTweet.save().then(tweet => {
-      res.json({ result: true, tweet})
-   })
-
-
 })
 
 module.exports = router;
