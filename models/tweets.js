@@ -8,4 +8,4 @@ const tweetSchema = mongoose.Schema({
 })
 
 const Tweet = mongoose.model('tweets', tweetSchema)
-export default Tweet
+module.exports = Tweet
