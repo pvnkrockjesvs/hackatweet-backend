@@ -38,4 +38,19 @@ router.delete('/', (req, res) => {
    })
 })
 
+/* LIKE a tweet */
+router.post('/like', (req, res) => {
+   Tweet.updateOne({_id : req.body.id}, {$inc: {'likes' : 1}}).then(data => {
+      res.json({ data})
+
+   })
+})
+
+/* UNLIKE a tweet */
+router.post('/unlike', (req, res) => {
+   Tweet.updateOne({_id : req.body.id}, {$inc: {'likes' : -1}}).then(data => {
+      res.json({ data })
+   })
+})
+
 module.exports = router;
