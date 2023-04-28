@@ -9,7 +9,7 @@ const uid2 = require('uid2');
 
 /* SIGNUP a user*/
 router.post('/signup', (req,res) => {
-  if (!checkBody(req.body, ['username', 'password', 'name'])) {
+  if (!checkBody(req.body, ['username', 'password', 'firstname'])) {
       res.json({ result: false, error: 'Missing or empty fields' });
       return;
   }
@@ -23,7 +23,7 @@ router.post('/signup', (req,res) => {
               password: hash,
               token: uid2(32),
               pp: req.body.pp,
-              name: req.body.name       
+              firstname: req.body.firstname       
           })
 
           newUser.save().then(user => {
