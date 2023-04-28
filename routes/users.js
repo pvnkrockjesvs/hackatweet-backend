@@ -46,7 +46,7 @@ router.post('/signin', (req, res) => {
     if (data && bcrypt.compareSync(req.body.password, data.password)) {
       res.json({ result: true, token: data.token });
     } else {
-      res.json({ result: false, error: 'User not found or wrong password', data });
+      res.json({ result: false, error: 'User not found or wrong password'});
     }
   })
 })
@@ -54,7 +54,7 @@ router.post('/signin', (req, res) => {
 /* GET a user */
 router.get('/:token', (req, res) => {
   User.findOne({token: req.params.token}).then(user => {
-    res.json({ user })
+    res.json({ username: user.username, token: user.token, pp: user.pp, firstname: user.firstname })
   })
 })
 
