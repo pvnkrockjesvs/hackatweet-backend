@@ -56,10 +56,15 @@ router.post("/signin", (req, res) => {
 });
 
 /* GET a user */
-router.get('/:token', (req, res) => {
-  User.findOne({token: req.params.token}).then(user => {
-    res.json({ user })
-  })
-})
+router.get("/:token", (req, res) => {
+  User.findOne({ token: req.params.token }).then((user) => {
+    res.json({
+      username: user.username,
+      token: user.token,
+      pp: user.pp,
+      firstname: user.firstname,
+    });
+  });
+});
 
 module.exports = router;

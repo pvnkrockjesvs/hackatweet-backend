@@ -11,6 +11,14 @@ router.get('/', function(req, res, next) {
    })
 });
 
+/* GET hashtag */
+router.get('/:hashtag', function(req, res, next) {
+   Tweet.findMany().populate('user').then(data => {
+      res.json({ tweets : data });
+   })
+});
+
+
 /* POST a tweet. */
 router.post('/', (req, res) => {
    if (!checkBody(req.body, ['text'])) {
