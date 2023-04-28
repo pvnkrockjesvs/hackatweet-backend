@@ -13,7 +13,8 @@ router.get('/', function(req, res, next) {
 
 /* GET hashtag */
 router.get('/:hashtag', function(req, res, next) {
-   Tweet.findMany().populate('user').then(data => {
+   const regex = new RegExp(req.params.hashtag, 'i')
+   Tweet.find({text : {$regex: regex}}).populate('user').then(data => {
       res.json({ tweets : data });
    })
 });
